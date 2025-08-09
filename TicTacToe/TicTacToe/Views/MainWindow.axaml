@@ -29,6 +29,14 @@
             Content = "Count -"
             Command = "{ Binding OnCountButtonCommandMinus }"/>
         
+        <CheckBox 
+            Content = "Is Increment?"
+            IsChecked="{ Binding IsIncrement }"/>
+        
+        <Button 
+            Content = "Do action"
+            Command = "{ Binding DoActionCommand }"/>
+        
     </StackPanel>
 
 </Window>

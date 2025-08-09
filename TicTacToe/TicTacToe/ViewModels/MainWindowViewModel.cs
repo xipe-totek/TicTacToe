@@ -22,14 +22,27 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
     
+    #region Count Direction
+
+    private bool _isIncrement;
+    
+    public bool IsIncrement
+    {
+        get => _isIncrement;
+
+        set => this.RaiseAndSetIfChanged(ref _isIncrement, value);
+    }
+    
+    #endregion
+    
     #endregion
 
     #region Commands
     
-    public ReactiveCommand<Unit, Unit> OnButtonCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> OnCountButtonCommandPlus { get; }
     public ReactiveCommand<Unit, Unit> OnCountButtonCommandMinus { get; }
+    
+    public ReactiveCommand<Unit, Unit> DoActionCommand { get; }
     
     #endregion
 
@@ -53,16 +66,31 @@ public partial class MainWindowViewModel : ViewModelBase
         
         OnCountButtonCommandPlus = ReactiveCommand.Create(OnCountButtonPressedPlus, canExecuteCountCommandPlus);
         OnCountButtonCommandMinus = ReactiveCommand.Create(OnCountButtonPressedMinus, canExecuteCountCommandMinus);
+        DoActionCommand = ReactiveCommand.Create(OnDoActionCommand);
     }
     
     private void OnCountButtonPressedPlus()
     {
         CountValue ++;
+        IsIncrement = true;
     }
     
     private void OnCountButtonPressedMinus()
     {
         CountValue --;
+        IsIncrement = false;
+    }
+
+    private void OnDoActionCommand()
+    {
+        if (IsIncrement)
+        {
+            CountValue++;
+        }
+        else
+        {
+            CountValue--;
+        }
     }
 
 }

@@ -18,11 +18,16 @@
     <StackPanel>
         
         <TextBlock 
-            Text = "{Binding CountValue}" />
+            Text = "{Binding CountValue}"
+            HorizontalAlignment="Center" />
         
         <Button 
-            Content = "Count"
-            Command = "{ Binding OnCountButtonCommand }"/>
+            Content = "Count +"
+            Command = "{ Binding OnCountButtonCommandPlus }"/>
+        
+        <Button 
+            Content = "Count -"
+            Command = "{ Binding OnCountButtonCommandMinus }"/>
         
     </StackPanel>
 

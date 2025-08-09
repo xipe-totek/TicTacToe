@@ -28,7 +28,8 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public ReactiveCommand<Unit, Unit> OnButtonCommand { get; }
     
-    public ReactiveCommand<Unit, Unit> OnCountButtonCommand { get; }
+    public ReactiveCommand<Unit, Unit> OnCountButtonCommandPlus { get; }
+    public ReactiveCommand<Unit, Unit> OnCountButtonCommandMinus { get; }
     
     #endregion
 
@@ -39,18 +40,29 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _mainWindowModel = model ?? throw new ArgumentNullException(nameof(model));
 
-        var canExecuteCountCommand = this.WhenAnyValue
+        var canExecuteCountCommandPlus = this.WhenAnyValue
         (
             x => x.CountValue,
             cv => cv < 10
         );
+
+        var canExecuteCountCommandMinus = this.WhenAnyValue
+        (x => x.CountValue,
+            cv => cv > -10
+        );
         
-        OnCountButtonCommand = ReactiveCommand.Create(OnCountButtonPressed, canExecuteCountCommand);
+        OnCountButtonCommandPlus = ReactiveCommand.Create(OnCountButtonPressedPlus, canExecuteCountCommandPlus);
+        OnCountButtonCommandMinus = ReactiveCommand.Create(OnCountButtonPressedMinus, canExecuteCountCommandMinus);
     }
     
-    private void OnCountButtonPressed()
+    private void OnCountButtonPressedPlus()
     {
         CountValue ++;
+    }
+    
+    private void OnCountButtonPressedMinus()
+    {
+        CountValue --;
     }
 
 }

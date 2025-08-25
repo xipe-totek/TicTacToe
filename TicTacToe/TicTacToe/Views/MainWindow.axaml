@@ -34,7 +34,7 @@
             <Button
                 Grid.Column="0"
                 Grid.Row="0"
-                Content = "0"
+                Content = "{ Binding GameField[0] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -46,7 +46,7 @@
             <Button
                 Grid.Column="1"
                 Grid.Row="0"
-                Content = "1"
+                Content = "{ Binding GameField[1] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -58,7 +58,7 @@
             <Button
                 Grid.Column="2"
                 Grid.Row="0"
-                Content = "2"
+                Content = "{ Binding GameField[2] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -70,7 +70,7 @@
             <Button
                 Grid.Column="0"
                 Grid.Row="1"
-                Content = "3"
+                Content = "{ Binding GameField[3] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -82,7 +82,7 @@
             <Button
                 Grid.Column="1"
                 Grid.Row="1"
-                Content = "4"
+                Content = "{ Binding GameField[4] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -94,7 +94,7 @@
             <Button
                 Grid.Column="2"
                 Grid.Row="1"
-                Content = "5"
+                Content = "{ Binding GameField[5] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -106,7 +106,7 @@
             <Button
                 Grid.Column="0"
                 Grid.Row="2"
-                Content = "6"
+                Content = "{ Binding GameField[6] }"
                 Command="{ Binding GameButtonPressedCommand }">
             
                 <Button.CommandParameter>
@@ -118,7 +118,7 @@
             <Button
                 Grid.Column="1"
                 Grid.Row="2"
-                Content = "7"
+                Content = "{ Binding GameField[7] }"
                 Command="{ Binding GameButtonPressedCommand }">
                 
                 <Button.CommandParameter>
@@ -130,7 +130,7 @@
             <Button
                 Grid.Column="2"
                 Grid.Row="2"
-                Content = "8"
+                Content = "{ Binding GameField[8] }"
                 Command="{ Binding GameButtonPressedCommand }">
 
                 <Button.CommandParameter>
@@ -139,26 +139,6 @@
                 
             </Button>
         </Grid>
-        
-        <TextBlock 
-            Text = "{Binding CountValue}"
-            HorizontalAlignment="Center" />
-        
-        <Button 
-            Content = "Count +"
-            Command = "{ Binding OnCountButtonCommandPlus }"/>
-        
-        <Button 
-            Content = "Count -"
-            Command = "{ Binding OnCountButtonCommandMinus }"/>
-        
-        <CheckBox 
-            Content = "Is Increment?"
-            IsChecked="{ Binding IsIncrement }"/>
-        
-        <Button 
-            Content = "Do action"
-            Command = "{ Binding DoActionCommand }"/>
         
     </StackPanel>
 

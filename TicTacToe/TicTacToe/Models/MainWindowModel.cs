@@ -1,24 +1,14 @@
+using System.Collections.ObjectModel;
+
 namespace TicTacToe.Models;
 
 public class MainWindowModel
 {
     /// <summary>
-    /// Game field width
-    /// </summary>
-    public const int Width = 3;
-    
-    /// <summary>
-    /// Game field height
-    /// </summary>
-    public const int Height = 3;
-    
-    /// <summary>
     /// Game field
     /// </summary>
-    public string[,] GameField = new string[Height, Width];
-    
-    /// <summary>
-    /// How many times user pressed the button
-    /// </summary>
-    public int CountValue;
+    public ObservableCollection<string> GameField = new ObservableCollection<string>()
+    {
+        "X0", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8"
+    };
 }

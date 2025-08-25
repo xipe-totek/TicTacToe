@@ -1,61 +1,38 @@
 ﻿using System;
-using System.Reactive;
-using ReactiveUI;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
 using TicTacToe.Models;
 
 namespace TicTacToe.ViewModels;
+
+// 1) Invent a new type, which can hold only 3 values, corresponding to space, X and 0 (hint: read about enums)
+// 2) Switch model to this new data type (hint: change ObservableCollection data type)
+// 3) Modify proxy (i.e. GameField in MainWindowViewModel) next way:
+// 3.1) Convert invented at 1) data type to string (hint: put code into get)
+// 3.2) Convert incoming string values to invented at 1) data type (hint: put code into set) 
 
 public partial class MainWindowViewModel : ViewModelBase
 {
     private MainWindowModel _mainWindowModel;
 
     #region Binbale variables
-
-    #region CountValue
-
-    public int CountValue
-    {
-        get => _mainWindowModel.CountValue;
-
-        set => this.RaiseAndSetIfChanged(ref _mainWindowModel.CountValue, value);
-    }
-
-    #endregion
     
     #region Game field
-
-    public string Button0
+    
+    public ObservableCollection<string> GameField
     {
-        get => _mainWindowModel.GameField[0, 0];
-        
-        set => this.RaiseAndSetIfChanged(ref _mainWindowModel.GameField[0, 0], value);
+        get
+        {
+            return _mainWindowModel.GameField;
+        }
+
+        set
+        {
+            _mainWindowModel.GameField = value;
+        }
     }
     
     #endregion
-
-    #region Count Direction
-
-    private bool _isIncrement;
-
-    public bool IsIncrement
-    {
-        get => _isIncrement;
-
-        set => this.RaiseAndSetIfChanged(ref _isIncrement, value);
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Commands
-
-    public ReactiveCommand<Unit, Unit> OnCountButtonCommandPlus { get; }
-    public ReactiveCommand<Unit, Unit> OnCountButtonCommandMinus { get; }
-
-    public ReactiveCommand<Unit, Unit> DoActionCommand { get; }
-
-    public ReactiveCommand<int, Unit> GameButtonPressedCommand { get; }
 
     #endregion
 
@@ -65,52 +42,18 @@ public partial class MainWindowViewModel : ViewModelBase
     )
     {
         _mainWindowModel = model ?? throw new ArgumentNullException(nameof(model));
-
-        var canExecuteCountCommandPlus = this.WhenAnyValue
-        (
-            x => x.CountValue,
-            cv => cv < 10
-        );
-
-        var canExecuteCountCommandMinus = this.WhenAnyValue
-        (x => x.CountValue,
-            cv => cv > -10
-        );
-
-        OnCountButtonCommandPlus = ReactiveCommand.Create(OnCountButtonPressedPlus, canExecuteCountCommandPlus);
-        OnCountButtonCommandMinus = ReactiveCommand.Create(OnCountButtonPressedMinus, canExecuteCountCommandMinus);
-        DoActionCommand = ReactiveCommand.Create(OnDoActionCommand);
+    }
+    
+    [RelayCommand(CanExecute = nameof(CanExecuteGameButtonPressed))]
+    public void GameButtonPressed(int index)
+    {
+        GameField[index] = "!";
         
-        GameButtonPressedCommand = ReactiveCommand.Create<int>(OnGameButtonPressed);
+        GameButtonPressedCommand.NotifyCanExecuteChanged();
     }
-
-    private void OnCountButtonPressedPlus()
+    
+    public bool CanExecuteGameButtonPressed(int index)
     {
-        CountValue++;
-        IsIncrement = true;
+        return GameField[index] != "!";
     }
-
-    private void OnCountButtonPressedMinus()
-    {
-        CountValue--;
-        IsIncrement = false;
-    }
-
-    private void OnDoActionCommand()
-    {
-        if (IsIncrement)
-        {
-            CountValue++;
-        }
-        else
-        {
-            CountValue--;
-        }
-    }
-
-    private void OnGameButtonPressed(int index)
-    {
-        CountValue = index;
-    }
-
 }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using TicTacToe.Models;
+using TicTacToe.Models.Enums;
 
 namespace TicTacToe.ViewModels;
 
@@ -19,7 +20,7 @@ public partial class MainWindowViewModel : ViewModelBase
     
     #region Game field
     
-    public ObservableCollection<string> GameField
+    public ObservableCollection<CellContent> GameField
     {
         get
         {
@@ -47,13 +48,13 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteGameButtonPressed))]
     public void GameButtonPressed(int index)
     {
-        GameField[index] = "!";
+        GameField[index] = CellContent.O;
         
         GameButtonPressedCommand.NotifyCanExecuteChanged();
     }
     
     public bool CanExecuteGameButtonPressed(int index)
     {
-        return GameField[index] != "!";
+        return GameField[index] != CellContent.O;
     }
 }

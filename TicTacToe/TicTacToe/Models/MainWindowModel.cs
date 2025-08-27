@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using TicTacToe.Models.Enums;
 
 namespace TicTacToe.Models;
 
@@ -7,8 +8,10 @@ public class MainWindowModel
     /// <summary>
     /// Game field
     /// </summary>
-    public ObservableCollection<string> GameField = new ObservableCollection<string>()
+    public ObservableCollection<CellContent> GameField = new ObservableCollection<CellContent>()
     {
-        "X0", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8"
+        CellContent.Space, CellContent.Space, CellContent.Space, 
+        CellContent.Space, CellContent.Space, CellContent.Space, 
+        CellContent.Space, CellContent.Space, CellContent.Space
     };
 }

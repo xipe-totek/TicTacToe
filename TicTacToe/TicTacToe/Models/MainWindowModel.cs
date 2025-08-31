@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TicTacToe.Models.Enums;
 
@@ -8,10 +9,10 @@ public class MainWindowModel
     /// <summary>
     /// Game field
     /// </summary>
-    public ObservableCollection<CellContent> GameField = new ObservableCollection<CellContent>()
-    {
-        CellContent.Space, CellContent.Space, CellContent.Space, 
-        CellContent.Space, CellContent.Space, CellContent.Space, 
+    public List<CellContent> GameField =
+    [
+        CellContent.Space, CellContent.Space, CellContent.Space,
+        CellContent.Space, CellContent.Space, CellContent.Space,
         CellContent.Space, CellContent.Space, CellContent.Space
-    };
+    ];
 }

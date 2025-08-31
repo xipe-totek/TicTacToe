@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using TicTacToe.Models;
 using TicTacToe.Models.Enums;
+using TicTacToe.Services.Abstract;
 
 namespace TicTacToe.ViewModels;
 
@@ -14,22 +17,32 @@ namespace TicTacToe.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    #region DI
+    
+    private readonly IGameLogic _gameLogic = Program.Di.GetService<IGameLogic>();
+
+    #endregion
+    
     private MainWindowModel _mainWindowModel;
 
     #region Binbale variables
     
     #region Game field
     
-    public ObservableCollection<CellContent> GameField
+    public List<string> GameField
     {
         get
         {
-            return _mainWindowModel.GameField;
-        }
-
-        set
-        {
-            _mainWindowModel.GameField = value;
+            return _mainWindowModel
+                .GameField
+                .Select(cc => cc switch
+                {
+                    CellContent.Space => " ",
+                    CellContent.X => "X",
+                    CellContent.O => "0",
+                    _ => throw new ArgumentOutOfRangeException()
+                })
+                .ToList();
         }
     }
     
@@ -48,13 +61,20 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteGameButtonPressed))]
     public void GameButtonPressed(int index)
     {
-        GameField[index] = CellContent.O;
-        
-        GameButtonPressedCommand.NotifyCanExecuteChanged();
+        SetGameFiledCell(index, CellContent.X); // User turn
+        SetGameFiledCell(_gameLogic.MakeTurn(index), CellContent.O); // PC turn
     }
     
     public bool CanExecuteGameButtonPressed(int index)
     {
-        return GameField[index] != CellContent.O;
+        return _mainWindowModel.GameField[index] == CellContent.Space;
+    }
+
+    private void SetGameFiledCell(int index, CellContent cellContent)
+    {
+        _mainWindowModel.GameField[index] = cellContent;
+        
+        OnPropertyChanged(nameof(GameField));
+        GameButtonPressedCommand.NotifyCanExecuteChanged();
     }
 }

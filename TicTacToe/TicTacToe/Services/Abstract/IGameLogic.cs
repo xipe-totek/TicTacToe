@@ -1,3 +1,5 @@
+using TicTacToe.Models;
+
 namespace TicTacToe.Services.Abstract;
 
 /// <summary>
@@ -10,5 +12,5 @@ public interface IGameLogic
     /// </summary>
     /// <param name="userIndex">User put X here</param>
     /// <returns>AI put O here</returns>
-    int MakeTurn(int userIndex);
+    AiTurnResult MakeTurn(int userIndex);
 }

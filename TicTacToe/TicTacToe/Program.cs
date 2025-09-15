@@ -39,7 +39,7 @@ sealed class Program
     {
         IServiceCollection services = new ServiceCollection();
 
-        services.AddSingleton<IGameLogic, StupidGameLogic>();
+        services.AddSingleton<IGameLogic, RandomGameLogic>();
         services.AddSingleton<IModelProvider, ModelProvider>();
         
         return services;

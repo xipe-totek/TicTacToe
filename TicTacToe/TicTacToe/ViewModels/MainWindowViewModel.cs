@@ -9,12 +9,6 @@ using TicTacToe.Services.Abstract;
 
 namespace TicTacToe.ViewModels;
 
-// 1) Create new class RealGameLogic, implementing IGameLogic (do not forget to inject IModelProvider into constructor and so on,
-// see StupidGameLogic for example)
-// 2) Register RealGameLogic as active implementation of IGameLogic (see Program.cs ConfigureServices())
-// 3) Implement real game logic MakeTurn() method of RealGameLogic (you can create additional private methods in RealGameLogic if needed,
-// but _do_not_ add anything to IGameLogic interface)
-
 public partial class MainWindowViewModel : ViewModelBase
 {
     #region DI
@@ -52,36 +46,25 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteGameButtonPressed))]
     public void GameButtonPressed(int index)
     {
-        SetGameFiledCell(index, CellContent.X); // User turn
-
         var aiTurnResult = _gameLogic.MakeTurn(index);
         
-        if (aiTurnResult.Type == AiTurnType.UserWon)
+        OnPropertyChanged(nameof(GameField));
+        GameButtonPressedCommand.NotifyCanExecuteChanged();
+        
+        if (aiTurnResult == AiTurnType.UserWon)
         {
             // TODO: Add nice message
             throw new Exception("You won!");
         }
-        else if (aiTurnResult.Type == AiTurnType.AiWon)
+        else if (aiTurnResult == AiTurnType.AiWon)
         {
             // TODO: Add nice message too
             throw new Exception("You lose!");
-        }
-        else
-        {
-            SetGameFiledCell(aiTurnResult.ZeroPosition, CellContent.O); // PC turn
         }
     }
     
     public bool CanExecuteGameButtonPressed(int index)
     {
         return _mainModel.GameField[index] == CellContent.Space;
-    }
-
-    private void SetGameFiledCell(int index, CellContent cellContent)
-    {
-        _mainModel.GameField[index] = cellContent;
-        
-        OnPropertyChanged(nameof(GameField));
-        GameButtonPressedCommand.NotifyCanExecuteChanged();
     }
 }
